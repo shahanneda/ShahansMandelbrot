@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 import ca.shahan.graphics.ViewDisplay;
 
 public class Main {
-	public static int width = 750;
-	public static int height = 750;
+	public static int width = 1000;
+	public static int height = 1000;
 	public ViewDisplay panel;
 	long graphicsLastUpdateTime;
 	long timeBetweenGraphicsUpdate = 100;
