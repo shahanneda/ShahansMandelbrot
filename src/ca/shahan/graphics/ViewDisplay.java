@@ -19,16 +19,16 @@ public class ViewDisplay extends JPanel{
 		img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
 		calcHypno();
         System.out.println(isMandelbrot(0,0,3,4));
-		for(int i = 0 ; i < cells[0].length;i++) {
-			for(int j = 0; j<cells.length; j++) {
-//				cells[i][j] = Color.RED;
-				if(hypo[i][j]) {
-					cells[i][j] = Color.BLACK;
-				}else {
-					cells[i][j] = Color.WHITE;
-				}
-			}
-		}
+//		for(int i = 0 ; i < cells[0].length;i++) {
+//			for(int j = 0; j<cells.length; j++) {
+////				cells[i][j] = Color.RED;
+//				if(hypo[i][j]) {
+//					cells[i][j] = Color.BLACK;
+//				}else {
+//					cells[i][j] = Color.WHITE;
+//				}
+//			}
+//		}
 //		cells[4][5] = Color.BLACK;
 //		cells = hypo;''
 	}
@@ -77,11 +77,20 @@ public class ViewDisplay extends JPanel{
 				double xM = between * (i - shift);
 				double yM = between * (j - shift);
 				double mandelConst = Math.pow(xM, 2) + Math.pow(yM, 2);
+				int numbers = isMandelbrot(0, 0,xM,yM);
 				
-				if(isMandelbrot(0, 0,xM,yM)) {
-					hypo[i][j] = true;//I KNOW THAT THIS IS UNNECCECRY BUT ITS NEEDED LATER
+				if(numbers == -1) {
+//					System.out.println(number);
+//					hypo[i][j] = true;//I KNOW THAT THIS IS UNNECCECRY BUT ITS NEEDED LATER
+					cells[i][j] = Color.BLACK;
 				}else {
-					hypo[i][j] = false;
+					int colorNumber = numbers;
+					int r = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 5));
+					int g = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 5));
+					int b = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 5d));
+					Color c = Color.WHITE;
+					cells[i][j] = new Color(r,g,b);
+//					hypo[i][j] = false;
 				} 
 //				System.out.println(mand el);
 			}
@@ -123,7 +132,7 @@ public class ViewDisplay extends JPanel{
 ////	}
 	final int maxCount = 100;
 	
-	public boolean isMandelbrot(double a, double b, double c1, double c2) {
+	public int isMandelbrot(double a, double b, double c1, double c2) {//-1 means in madel
 		double newA = a*a - b*b + c1; // idk complex number calcuations
 		double newB = 2*a*b + c2;// complex number calcuations
 //		System.out.println("" + newA + " " + newB);
@@ -133,17 +142,18 @@ public class ViewDisplay extends JPanel{
 			newB =  2*oldA*newB + c2;
 			if(newA*newA + newB*newB > 4) {
 //				System.out.println("Escaped to infinity!!");
-				return false;
+//				System.out.println(i);
+				return i;
 			}
 			if(i >= maxCount-2) {
 //				
 //					System.out.println("Stayed in, " + newA + "" + newB);
-					return true;
+					return -1;
 				
 				
 			}
 		}
-	    return true;
+	    return -1;
 	    	
 		
 	}
