@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 import ca.shahan.graphics.ViewDisplay;
 
 public class Main {
-	public int width = 750;
-	public int height = 750;
+	public static int width = 750;
+	public static int height = 750;
 	public ViewDisplay panel;
 	long graphicsLastUpdateTime;
 	long timeBetweenGraphicsUpdate = 100;
@@ -27,7 +27,9 @@ public class Main {
 		window.setVisible(true);
 		
 		graphicsLastUpdateTime = System.currentTimeMillis();
+		panel.repaint();
 		Loop();
+		
 	}
 
 
@@ -35,6 +37,7 @@ public class Main {
 		while (true){
 			if(graphicsLastUpdateTime + timeBetweenGraphicsUpdate > System.currentTimeMillis()) {
 				panel.UpdateGUI();
+				panel.repaint();
 			}
 		}
 	}
