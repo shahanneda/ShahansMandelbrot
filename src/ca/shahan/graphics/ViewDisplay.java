@@ -78,8 +78,8 @@ public class ViewDisplay extends JPanel{
 						cellHeight);	
 			}
 		}
-		g.setColor(Color.red);
-		g.fillRect(500, 500, 1, 1);
+//		g.setColor(Color.red);
+//		g.fillRect(500, 500, 1, 1);
 
 	}
 	
@@ -123,9 +123,10 @@ public class ViewDisplay extends JPanel{
 						int b = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 7));
 						//					Color c = Color.WHITE;
 						//					cells[i][j]  =MapColor(colorNumber, xM, yM);
-						Color c = new Color(r,0,b);
+//						Color c = Color.getHSBColor((float) scaleRange(colorNumber,0,1), 1, 1);
+						Color c =new Color(100,r,55);
 						cells[i][j] = c;
-						savedColors.put(new XYPAIR(xM, yM),c);
+						savedColors.put(new XYPAIR(xM, yM),c); 
 						//					hypo[i][j] = false;
 					} 
 					//				System.out.println(mand el);
@@ -137,7 +138,10 @@ public class ViewDisplay extends JPanel{
 		}
 	}
 
-	
+	double scaleRange(double number, double high, double low)
+	{
+	  return (high + low) * 0.5f;
+	}
 	int currentCount = 0;//use this to instead get diffrene colors
 	
 	 private Color MapColor(int i, double r, double c){
