@@ -5,8 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.swing.JPanel;
 
@@ -73,19 +77,40 @@ public class ViewDisplay extends JPanel{
 //		g.setColor(Color.black);
 		int cellWidth = Main.width / cells.length ;
 		int cellHeight = Main.height / cells[0] .length;//MIGHT HAVE MixED THESE UP
-		for(int i = 0 ; i < cells[0].length;i++) {
+		Stream<Color[]> cellsStreams = Arrays.stream(cells);
+		
+		IntStream.range(0, cells.length).parallel().forEach(id -> {
+			Graphics g2 = img.getGraphics();
 			for(int j = 0; j<cells.length; j++) {
-				
-				
-				g.setColor(cells[i][j]);
-				g.fillRect(i*cellWidth,				
-						j*cellHeight,
-						
-						cellWidth,
-						
+				g2.setColor(cells[id][j]);
+				g2.fillRect(id*cellWidth,				
+						j*cellHeight,		
+						cellWidth,	
 						cellHeight);	
 			}
-		}
+				
+		});
+		
+		        
+//		cellsStreams.forEach(idx ->
+//	   
+//	        Stream<Color> stream = StreamSupport.stream(Arrays.stream(sellerNames).spliterator(), true); // true means use parallel stream
+//	        stream.forEach(sellerName -> {
+//	            System.out.println(sellerName);
+//	        });
+//	    });
+//		for(int i = 0 ; i < cells[0].length;i++) {
+//			for(int j = 0; j<cells.length; j++) {
+//				g.setColor(cells[i][j]);
+//				g.fillRect(i*cellWidth,				
+//						j*cellHeight,
+//						
+//						cellWidth,
+//						
+//						cellHeight);	
+//			}
+//		}
+		
 //		g.setColor(Color.red);
 //		g.fillRect(500, 500, 1, 1);
 
@@ -108,15 +133,15 @@ public class ViewDisplay extends JPanel{
 		double xM2 = between * (0+(xLocationShift*Scale/OriginalScale) - shift);
 		double yM2 = between * (0+(yLocaitonShift*Scale/OriginalScale) - shift);
 		System.out.println(xM2 + " " + yM2);
-		for(int i = 0; i < 1000; i++) {
-			for(int j = 0; j< 1000; j++) {
-				double xM = between * (i+(xLocationShift*Scale/OriginalScale) - shift);
-				double yM = between * (j+(yLocaitonShift*Scale/OriginalScale) - shift);
+		IntStream.range(0,1000).parallel().forEach(i -> {
+			IntStream.range(0, 1000).parallel().forEach(j -> {
+				double xM = between * (i+(xLocationShift) - shift);
+				double yM = between * (j+(yLocaitonShift) - shift);
 //				double mandelConst = Math.pow(xM, 2) + Math.pow(yM, 2);
 				
-				Color savedColor = savedColors.get (new XYPAIR(xM, yM));
+//				Color savedColor = savedColors.get (new XYPAIR(xM, yM));
 //				System.out.println(savedColor);
-				if(savedColor==null) {
+//				if(savedColor==null) {
 					
 					int numbers = isMandelbrot(0, 0,xM,yM);
 
@@ -134,16 +159,24 @@ public class ViewDisplay extends JPanel{
 //						Color c = Color.getHSBColor((float) scaleRange(colorNumber,0,1), 1, 1);
 						Color c =new Color(100,r,55);
 						cells[i][j] = c;
-						savedColors.put(new XYPAIR(xM, yM),c); 
+//						savedColors.put(new XYPAIR(xM, yM),c); 
 						//					hypo[i][j] = false;
 					} 
 					//				System.out.println(mand el);
-				}else {
-//					System.out.println("using saved colro");
-					cells[i][j] = savedColor;
-				}
-			}
-		}
+//				}else {
+////					System.out.println("using saved colro");
+//					cells[i][j] = savedColor;
+//				}
+				
+			});
+		});
+		
+		
+//		for(int i = 0; i < 1000; i++) {
+//		     for(int j = 0; j< 1000; j++) {
+//			
+//		     }
+//		}
 	}
 
 	double scaleRange(double number, double high, double low)
