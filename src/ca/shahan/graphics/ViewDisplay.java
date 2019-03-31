@@ -49,9 +49,17 @@ public class ViewDisplay extends JPanel{
 //				
 //			}
 //		}
+		long timeTaken = System.nanoTime();
 		calcHypno();
+		System.out.println("Calc Hypno took:" + (System.nanoTime()-timeTaken)/ 1_000_000_000.0);
+		timeTaken = System.nanoTime();
 		UpdateGUI();
+		System.out.println("Update Gui  took:" + (System.nanoTime()-timeTaken)/ 1_000_000_000.0);
+		timeTaken = System.nanoTime();
+		
 		repaint();
+		System.out.println("Repaint took" + (System.nanoTime()-timeTaken)/ 1_000_000_000.0);
+		timeTaken = System.nanoTime();
 //		calcHypno();
 		
 	    
