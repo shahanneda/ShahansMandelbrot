@@ -34,35 +34,10 @@ public class Main {
 		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
-		
-//	       InputMap im = panel.getInputMap(JPanel.WHEN_FOCUSED);
-//	        ActionMap am = panel.getActionMap();
-//
-//	        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "onEnter");
-//
-//	        am.put("onEnter", new AbstractAction() {
-//	            @Override
-//	            public void actionPerformed(ActionEvent e) {
-//	                // Enter pressed
-//	            	System.out.println("Enter pressed!");
-//	            	panel.Scale +=100;
-////	            	panel.calcHypno();
-//////	            	panel.clearGui();
-////	            	panel.UpdateGUI();
-////	            	panel.repaint();
-//	            	panel.clearGui();
-//	            }
-//	        });
-		setKeyBindings(panel);
-	      
-
-	        
-	        
+		setKeyBindings(panel);       
 		graphicsLastUpdateTime = System.currentTimeMillis();
 		panel.UpdateGUI();
-		panel.repaint();
-//		Loop();
-		
+		panel.repaint();		
 	}
 
 	private void setKeyBindings(JPanel gridPanel) {
@@ -94,7 +69,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Enter pressed
-            	System.out.println("Enter pressed!");
+//            	System.out.println("Enter pressed!");
             	panel.yLocaitonShift -= 100;
 //            	panel.calcHypno();
 ////            	panel.clearGui();
@@ -107,7 +82,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Enter pressed
-            	System.out.println("Enter pressed!");
+//            	System.out.println("Enter pressed!");
             	panel.yLocaitonShift += 100;
 //            	panel.calcHypno();
 ////            	panel.clearGui();
@@ -120,7 +95,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Enter pressed
-            	System.out.println("Enter pressed!");
+//            	System.out.println("Enter pressed!");
             	panel.xLocationShift -= 100;
 //            	panel.calcHypno();
 ////            	panel.clearGui();
@@ -133,7 +108,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Enter pressed
-            	System.out.println("Enter pressed!");
+//            	System.out.println("Enter pressed!");
             	panel.xLocationShift += 100;
 //            	panel.calcHypno();
 ////            	panel.clearGui();
@@ -146,7 +121,7 @@ public class Main {
            @Override
            public void actionPerformed(ActionEvent e) {
                // Enter pressed
-           	System.out.println("zoom");
+//           	System.out.println("zoom");
 //           	
 //            double oldWidth = panel.Scale * 0.10;
 //            double oldHeight = panel.Scale * 0.10;
@@ -161,8 +136,8 @@ public class Main {
             panel.Scale +=100*scaleFactor*2;
         	double amountScaled = (double) (1000/panel.Scale);
            	System.out.println("amount scaled :" + (panel.Scale - oldScale/2));
-//            panel.xLocationShift+=(panel.Scale - oldScale)/2;
-//            panel.yLocaitonShift+=(panel.Scale - oldScale)/2;
+            panel.xLocationShift+=(panel.Scale - oldScale)/2;
+            panel.yLocaitonShift+=(panel.Scale - oldScale)/2;
 ////           	panel.calcHypno();
 ////           	panel.clearGui();
 //           	panel.UpdateGUI();
@@ -180,8 +155,8 @@ public class Main {
             panel.Scale -=100*scaleFactor*2;
         	double amountScaled = (double) (1000/panel.Scale);
            	System.out.println("amount scaled :" + (panel.Scale - oldScale/2));
-//            panel.xLocationShift+=(panel.Scale - oldScale)/2;
-//            panel.yLocaitonShift+=(panel.Scale - oldScale)/2;
+            panel.xLocationShift+=(panel.Scale - oldScale)/2;
+            panel.yLocaitonShift+=(panel.Scale - oldScale)/2;
           
 //           	panel.calcHypno();
 ////           	panel.clearGui();

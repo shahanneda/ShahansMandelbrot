@@ -25,7 +25,7 @@ public class ViewDisplay extends JPanel{
 	public ViewDisplay(int width, int height) {
 		img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
 		calcHypno();
-        System.out.println(isMandelbrot(0,0,3,4));
+//        System.out.println(isMandelbrot(0,0,3,4));
 //		for(int i = 0 ; i < cells[0].length;i++) {
 //			for(int j = 0; j<cells.length; j++) {
 ////				cells[i][j] = Color.RED;
@@ -42,7 +42,7 @@ public class ViewDisplay extends JPanel{
 	
 	public void paintComponent(Graphics g){
 		g.drawImage(img, 0, 0, this);
-		System.out.println("Drawing");
+//		System.out.println("Drawing");
 	}
 	public void clearGui() {
 //		cells = new Color[1000][1000];
@@ -55,14 +55,14 @@ public class ViewDisplay extends JPanel{
 //		}
 		long timeTaken = System.nanoTime();
 		calcHypno();
-		System.out.println("Calc Hypno took:" + (System.nanoTime()-timeTaken)/ 1_000_000_000.0);
+//		System.out.println("Calc Hypno took:" + (System.nanoTime()-timeTaken)/ 1_000_000_000.0);
 		timeTaken = System.nanoTime();
 		UpdateGUI();
-		System.out.println("Update Gui  took:" + (System.nanoTime()-timeTaken)/ 1_000_000_000.0);
+//		System.out.println("Update Gui  took:" + (System.nanoTime()-timeTaken)/ 1_000_000_000.0);
 		timeTaken = System.nanoTime();
 		
 		repaint();
-		System.out.println("Repaint took" + (System.nanoTime()-timeTaken)/ 1_000_000_000.0);
+//		System.out.println("Repaint took" + (System.nanoTime()-timeTaken)/ 1_000_000_000.0);
 		timeTaken = System.nanoTime();
 //		calcHypno();
 		
@@ -70,7 +70,7 @@ public class ViewDisplay extends JPanel{
 	}
 	public void UpdateGUI() {
 		//  use when u want to clear g.clearrect
-		System.out.println("UPDATING");
+//		System.out.println("UPDATING");
 		Graphics g = img.getGraphics();
 		((Graphics2D) g).setBackground(backgroundColor);
 //		g.clearRect(0, 0,  Main.width, Main.height );
@@ -81,6 +81,7 @@ public class ViewDisplay extends JPanel{
 		
 		IntStream.range(0, cells.length).parallel().forEach(id -> {
 			Graphics g2 = img.getGraphics();
+			
 			for(int j = 0; j<cells.length; j++) {
 				g2.setColor(cells[id][j]);
 				g2.fillRect(id*cellWidth,				
@@ -125,14 +126,14 @@ public class ViewDisplay extends JPanel{
 	// 4/length
    public int xLocationShift = 1;
    public int yLocaitonShift = 1;
-	
+   long timeTakenh = System.nanoTime();
 	public void calcHypno() {
 		double between = 4/Scale;
 		double shift = (Scale/2);
-		System.out.println("CALCUTAITM with scale" + Scale + "Scale Amount = " + Scale/OriginalScale);
+//		System.out.println("CALCUTAITM with scale" + Scale + "Scale Amount = " + Scale/OriginalScale);
 		double xM2 = between * (0+(xLocationShift*Scale/OriginalScale) - shift);
 		double yM2 = between * (0+(yLocaitonShift*Scale/OriginalScale) - shift);
-		System.out.println(xM2 + " " + yM2);
+		
 		IntStream.range(0,1000).parallel().forEach(i -> {
 			IntStream.range(0, 1000).parallel().forEach(j -> {
 				double xM = between * (i+(xLocationShift) - shift);
@@ -142,26 +143,27 @@ public class ViewDisplay extends JPanel{
 //				Color savedColor = savedColors.get (new XYPAIR(xM, yM));
 //				System.out.println(savedColor);
 //				if(savedColor==null) {
-					
-					int numbers = isMandelbrot(0, 0,xM,yM);
-
-					if(numbers == -1) {
+				long t = System.nanoTime();
+				int numbers = isMandelbrot(0, 0,xM,yM);
+			    timeTakenh += t- System.nanoTime() ;
+				
+				if(numbers == -1) {
 						//					System.out.println(number);
 						//					hypo[i][j] = true;//I KNOW THAT THIS IS UNNECCECRY BUT ITS NEEDED LATER
-						cells[i][j] = Color.BLACK;
-					}else {
-						int colorNumber = numbers;
-						int r = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 5));
-						int g = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 5));
-						int b = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 7));
-						//					Color c = Color.WHITE;
-						//					cells[i][j]  =MapColor(colorNumber, xM, yM);
-//						Color c = Color.getHSBColor((float) scaleRange(colorNumber,0,1), 1, 1);
-						Color c =new Color(100,r,55);
-						cells[i][j] = c;
-//						savedColors.put(new XYPAIR(xM, yM),c); 
-						//					hypo[i][j] = false;
-					} 
+					cells[i][j] = Color.BLACK;
+				}else {
+					int colorNumber = numbers;
+					int r = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 5));
+					int g = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 5));
+					int b = 255- (int) Math.max(0d, Math.min(255d, colorNumber * 7));
+					//					Color c = Color.WHITE;
+					//					cells[i][j]  =MapColor(colorNumber, xM, yM);
+					//						Color c = Color.getHSBColor((float) scaleRange(colorNumber,0,1), 1, 1);
+					Color c =new Color(100,r,55);
+					cells[i][j] = c;
+					//						savedColors.put(new XYPAIR(xM, yM),c); 
+					//					hypo[i][j] = false;
+				} 
 					//				System.out.println(mand el);
 //				}else {
 ////					System.out.println("using saved colro");
@@ -170,6 +172,8 @@ public class ViewDisplay extends JPanel{
 				
 			});
 		});
+		
+//		System.out.println("Mandel took " + timeTakenh/1_000_000_000.0);
 		
 		
 //		for(int i = 0; i < 1000; i++) {
@@ -251,12 +255,14 @@ public class ViewDisplay extends JPanel{
 //				
 //					System.out.println("Stayed in, " + newA + "" + newB);
 					return -1;
-				
-				
 			}
 		}
 	    return -1;
-	    	
+////	    	
+//		if(c1 > 0.2 && c1 < 0.4 && c2 >0.2 && c2 < 0.4) {
+//			return -1;
+//		}
+//		return (int) (Math.random()*10);
 		
 	}
 }
